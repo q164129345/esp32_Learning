@@ -2,4 +2,6 @@
 # code_EXIT项目
 /code_EXIT/build/ 
 # simple_Code1项目
-/simple_Code1/build
+/simple_Code1/build/
+# code_Uart_Echo项目
+/code_Uart_Echo/build/
