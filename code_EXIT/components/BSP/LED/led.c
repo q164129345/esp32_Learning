@@ -1,5 +1,5 @@
 #include "led.h"
-#include <driver/gpio.h>
+#include "driver/gpio.h"
 
 /**
  * @brief 初始化GPIO口
@@ -22,11 +22,9 @@ void led_Init(void)
  */
 void led_Toggle(void)
 {
-    if (false == gpio_get_level(LED_GPIO_PIN)) {
-        gpio_set_level(LED_GPIO_PIN,1);
-    } else {
-        gpio_set_level(LED_GPIO_PIN,0);
-    }
+    static uint32_t cnt = 0;
+    gpio_set_level(LED_GPIO_PIN,cnt % 2);
+    cnt++;
 }
 
 
