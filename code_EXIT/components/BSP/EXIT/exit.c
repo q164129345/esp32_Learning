@@ -6,16 +6,18 @@
 #include "driver/gpio.h"
 #include "driver/gpio_filter.h"
 #include "esp_log.h"
+#include "esp_attr.h"
 
 #define EXIT_PIN_NUM GPIO_NUM_0 // 开发板上IO0与Boot按钮
 
-
-
-static void exit_GPIO_ISR_Handler(void* arg) {
+/**
+ * @brief EXIT外部中断函数
+ * 
+ * @param arg 
+ */
+static IRAM_ATTR void exit_GPIO_ISR_Handler(void *arg) {
     esp_log_write(ESP_LOG_INFO,"EXIT","%s(%d):Pin Level:%d\n",__FUNCTION__, __LINE__, gpio_get_level(EXIT_PIN_NUM));
 }
-
-
 
 /**
  * @brief 配置毛刺过滤器，提高GPIO口的抗干扰能力
