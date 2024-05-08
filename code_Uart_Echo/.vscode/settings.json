@@ -10,7 +10,11 @@
     "idf.openOcdConfigs": [
         "board/esp32s3-builtin.cfg"
     ],
-    "idf.port": "/dev/ttyACM0",
     "idf.pythonBinPath": "/home/wallace/esp/python_env/idf5.2_py3.10_env/bin/python",
-    "idf.toolsPath": "/home/wallace/esp"
+    "idf.toolsPath": "/home/wallace/esp",
+    "idf.port": "/dev/ttyACM0",
+    "idf.flashType": "JTAG",
+    "files.associations": {
+        "esp_log.h": "c"
+    },
 }
