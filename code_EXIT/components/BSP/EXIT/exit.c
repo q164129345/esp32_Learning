@@ -10,13 +10,15 @@
 
 #define EXIT_PIN_NUM GPIO_NUM_0 // 开发板上IO0与Boot按钮
 
+static uint32_t callback_CNT = 0;
+
 /**
  * @brief EXIT外部中断函数
  * 
  * @param arg 
  */
 static IRAM_ATTR void exit_GPIO_ISR_Handler(void *arg) {
-    esp_log_write(ESP_LOG_INFO,"EXIT","%s(%d):Pin Level:%d\n",__FUNCTION__, __LINE__, gpio_get_level(EXIT_PIN_NUM));
+    callback_CNT++;
 }
 
 /**
@@ -50,19 +52,25 @@ void GPIO_Exit_Init(void) {
 
     // 配置 GPIO 输入模式等其他相关设置
     gpio_config_t io_conf = {0,};
-    io_conf.intr_type = GPIO_INTR_ANYEDGE;           // 上升沿 + 下降沿触发
-    io_conf.pin_bit_mask = (1ULL << EXIT_PIN_NUM);   // 配置IO口
-    io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pull_up_en = 1;  // 启用内部上拉电阻
-    gpio_config(&io_conf);
+    io_conf.intr_type = GPIO_INTR_ANYEDGE;         // 上升沿 + 下降沿触发
+    io_conf.pin_bit_mask = (1ULL << EXIT_PIN_NUM); // 配置IO口
+    io_conf.mode = GPIO_MODE_INPUT;                // 输入模式
+    io_conf.pull_up_en = 1;                        // 启用内部上拉电阻（根据电路设计来）
+    gpio_config(&io_conf);                         // 初始化GPIO
 
-    //配置中断
-    gpio_install_isr_service(ESP_INTR_FLAG_EDGE | ESP_INTR_FLAG_IRAM); // 边沿触发
-    //gpio_isr_handler_add();
-
+    // 启动中断
+    gpio_install_isr_service(ESP_INTR_FLAG_EDGE);  // 注册中断服务
+    gpio_isr_handler_add(EXIT_PIN_NUM, exit_GPIO_ISR_Handler, (void*) EXIT_PIN_NUM); // 关联中断回调函数与GPIO
 }
 
-
+/**
+ * @brief Get the Callback CNT object
+ * 
+ * @return uint32_t 
+ */
+uint32_t get_Callback_CNT(void) {
+    return callback_CNT;
+}
 
 
 
