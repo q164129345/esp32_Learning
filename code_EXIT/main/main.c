@@ -11,6 +11,6 @@ void app_main(void)
     while(1) {
         esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d):Hello:esp_log.\n",__FUNCTION__,__LINE__);
         led_Toggle();
-        vTaskDelay(500 / portTICK_PERIOD_MS);    
+        vTaskDelay(300 / portTICK_PERIOD_MS);    
     }
 }
