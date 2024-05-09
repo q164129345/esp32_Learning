@@ -9,7 +9,8 @@
                 "${config:idf.espIdfPathWin}/components/**",
                 "${config:idf.espAdfPath}/components/**",
                 "${config:idf.espAdfPathWin}/components/**",
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/components/BSP/**"
             ],
             "browse": {
                 "path": [
@@ -17,10 +18,13 @@
                     "${config:idf.espIdfPathWin}/components",
                     "${config:idf.espAdfPath}/components/**",
                     "${config:idf.espAdfPathWin}/components/**",
-                    "${workspaceFolder}"
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/components/BSP/**"
                 ],
                 "limitSymbolsToIncludedHeaders": false
-            }
+            },
+            /* 解决 browse.path 中未找到包含文件 */
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

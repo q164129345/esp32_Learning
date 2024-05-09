@@ -8,10 +8,10 @@
     },
     "idf.espIdfPath": "/home/wallace/esp/v5.2.1/esp-idf",
     "idf.openOcdConfigs": [
-        "interface/ftdi/esp32_devkitj_v1.cfg",
-        "target/esp32.cfg"
+        "board/esp32s3-builtin.cfg"
     ],
     "idf.port": "/dev/ttyACM0",
     "idf.pythonBinPath": "/home/wallace/esp/python_env/idf5.2_py3.10_env/bin/python",
-    "idf.toolsPath": "/home/wallace/esp"
+    "idf.toolsPath": "/home/wallace/esp",
+    "idf.flashType": "JTAG"
 }
