@@ -1,7 +1,6 @@
 # 忽略各个项目的build文件夹
 # code_EXIT项目
 /code_EXIT/build/ 
-# simple_Code1项目
 /simple_Code1/build/
-# code_Uart_Echo项目
 /code_Uart_Echo/build/
+/code_SysTimer/build/
