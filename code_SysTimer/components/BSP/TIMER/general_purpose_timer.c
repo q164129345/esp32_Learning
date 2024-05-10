@@ -43,11 +43,11 @@ void init_And_Start_GPtimer1(void) {
     gptimer_event_callbacks_t cbs = {
         .on_alarm = gptimer_callback, // 定时器回调函数
     };
-    gptimer_new_timer(&config, &gptimer1);                  // 初始化通用定时器
-    gptimer_set_alarm_action(gptimer1, &alarmConfig);       // 初始化报警器
-    gptimer_register_event_callbacks(gptimer1, &cbs, NULL); // 初始化回调
-    gptimer_enable(gptimer1); // 使能通用定时器
-    gptimer_start(gptimer1);  // 启动通用定时器
+    ESP_ERROR_CHECK(gptimer_new_timer(&config, &gptimer1));                  // 初始化通用定时器
+    ESP_ERROR_CHECK(gptimer_set_alarm_action(gptimer1, &alarmConfig));       // 初始化报警器
+    ESP_ERROR_CHECK(gptimer_register_event_callbacks(gptimer1, &cbs, NULL)); // 初始化回调
+    ESP_ERROR_CHECK(gptimer_enable(gptimer1)); // 使能通用定时器
+    ESP_ERROR_CHECK(gptimer_start(gptimer1));  // 启动通用定时器
     esp_log_write(ESP_LOG_INFO, "ESP_TIMER","%s(%d): gptimer1 start.\n",__FUNCTION__, __LINE__);
 }
 
