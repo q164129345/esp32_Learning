@@ -16,6 +16,7 @@
     "idf.flashType": "JTAG",
     "files.associations": {
         "esp_log.h": "c",
-        "esp_timer.h": "c"
+        "esp_timer.h": "c",
+        "freertos.h": "c"
     }
 }
