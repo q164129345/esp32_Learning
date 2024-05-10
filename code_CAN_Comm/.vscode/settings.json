@@ -1,0 +1,16 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.adapterTargetName": "esp32s3",
+    "idf.customExtraPaths": "/home/wallace/esp/tools/xtensa-esp-elf-gdb/12.1_20231023/xtensa-esp-elf-gdb/bin:/home/wallace/esp/tools/riscv32-esp-elf-gdb/12.1_20231023/riscv32-esp-elf-gdb/bin:/home/wallace/esp/tools/xtensa-esp-elf/esp-13.2.0_20230928/xtensa-esp-elf/bin:/home/wallace/esp/tools/riscv32-esp-elf/esp-13.2.0_20230928/riscv32-esp-elf/bin:/home/wallace/esp/tools/esp32ulp-elf/2.35_20220830/esp32ulp-elf/bin:/home/wallace/esp/tools/cmake/3.24.0/bin:/home/wallace/esp/tools/openocd-esp32/v0.12.0-esp32-20230921/openocd-esp32/bin:/home/wallace/esp/tools/ninja/1.11.1:/home/wallace/esp/tools/esp-rom-elfs/20230320",
+    "idf.customExtraVars": {
+        "OPENOCD_SCRIPTS": "/home/wallace/esp/tools/openocd-esp32/v0.12.0-esp32-20230921/openocd-esp32/share/openocd/scripts",
+        "ESP_ROM_ELF_DIR": "/home/wallace/esp/tools/esp-rom-elfs/20230320/"
+    },
+    "idf.espIdfPath": "/home/wallace/esp/v5.2.1/esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.pythonBinPath": "/home/wallace/esp/python_env/idf5.2_py3.10_env/bin/python",
+    "idf.toolsPath": "/home/wallace/esp",
+    "idf.port": "/dev/ttyACM0"
+}
