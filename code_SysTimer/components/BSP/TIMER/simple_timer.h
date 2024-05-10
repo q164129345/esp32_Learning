@@ -4,7 +4,6 @@
 #include "stdbool.h"
 #include "stdio.h"
 #include "string.h"
-#include "esp_timer.h"
 
 void timer_Init(void);
 void timer_Start(void);
