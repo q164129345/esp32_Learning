@@ -2,13 +2,15 @@ set(src_dirs
         LED
         EXIT
         UART
-        TIMER)
+        TIMER
+        CAN)
 
 set(include_dirs
         LED
         EXIT
         UART
-        TIMER)
+        TIMER
+        CAN)
 
 set(requires
         driver
