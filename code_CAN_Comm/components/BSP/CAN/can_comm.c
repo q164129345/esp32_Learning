@@ -22,6 +22,10 @@ void can_Comm_Init(void) {
     ESP_ERROR_CHECK(twai_start()); // 启动CAN驱动
 }
 
+/**
+ * @brief 初始化CAN控制器，大一点的消息队列与最高优先级
+ * 
+ */
 void can_Comm_Init2(void) {
     /* 配置CAN控制器 */
     twai_general_config_t g_config = {
