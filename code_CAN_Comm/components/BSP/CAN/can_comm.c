@@ -22,6 +22,27 @@ void can_Comm_Init(void) {
     ESP_ERROR_CHECK(twai_start()); // 启动CAN驱动
 }
 
+void can_Comm_Init2(void) {
+    /* 配置CAN控制器 */
+    twai_general_config_t g_config = {
+        .controller_id = 0,
+        .mode = TWAI_MODE_NORMAL,           // 普通模式
+        .tx_io = CAN_TX_PIN,                // TX引脚号
+        .rx_io = CAN_RX_PIN,                // RX引脚号
+        .clkout_io = TWAI_IO_UNUSED,        // 未使用的时钟输出引脚
+        .bus_off_io = TWAI_IO_UNUSED,       // 未使用的总线关闭引脚
+        .tx_queue_len = 256,                // 发送消息队列
+        .rx_queue_len = 256,                // 接收消息队列
+        .alerts_enabled = TWAI_ALERT_NONE,  // 不启动警告
+        .clkout_divider = 0,                // 时钟输出分频器
+        .intr_flags = ESP_INTR_FLAG_LEVEL3, // 中断优先级
+    };
+    twai_timing_config_t timeConfig = TWAI_TIMING_CONFIG_500KBITS();        // CAN通讯波特率500K
+    twai_filter_config_t filterConfig = TWAI_FILTER_CONFIG_ACCEPT_ALL();    // 接收所有CAN报文
+    ESP_ERROR_CHECK(twai_driver_install(&g_config, &timeConfig, &filterConfig)); // 安装CAN驱动
+    ESP_ERROR_CHECK(twai_start()); // 启动CAN驱动
+}
+
 /**
  * @brief 测试接收与发送
  * 

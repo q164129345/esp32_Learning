@@ -12,8 +12,8 @@
  */
 void app_main(void)
 {
-    led_Init();    // 初始化LED
-    can_Comm_Init(); // 初始化CAN控制器
+    led_Init();       // 初始化LED
+    can_Comm_Init2(); // 初始化CAN控制器、方案2
     while(1) {
         esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d): can comm\n",__FUNCTION__, __LINE__);
         led_Toggle();
