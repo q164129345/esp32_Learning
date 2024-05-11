@@ -15,26 +15,27 @@
 void can_Comm_Init(void) {
 
     /* 配置CAN控制器*/
-    twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(CAN_TX_PIN, CAN_RX_PIN, TWAI_MODE_NORMAL);
+    twai_general_config_t g_config = TWAI_GENERAL_CONFIG_DEFAULT(CAN_TX_PIN, CAN_RX_PIN, TWAI_MODE_NORMAL); // 获取普通模式的常规配置
     twai_timing_config_t timeConfig = TWAI_TIMING_CONFIG_500KBITS();        // CAN通讯波特率500K
     twai_filter_config_t filterConfig = TWAI_FILTER_CONFIG_ACCEPT_ALL();    // 接收所有CAN报文
     ESP_ERROR_CHECK(twai_driver_install(&g_config, &timeConfig, &filterConfig)); // 安装CAN驱动
     ESP_ERROR_CHECK(twai_start()); // 启动CAN驱动
 }
 
+/**
+ * @brief 测试接收与发送
+ * 
+ */
 void CAN_Receive_Msg_And_Send_Msg(void) {
     twai_message_t recMsg;
     twai_message_t sendMsg;
     /* 接收到CAN报文时，将CAN报文发送回去 */
     if (ESP_OK == twai_receive(&recMsg,0U)) {
-        memcpy(&sendMsg, &recMsg, sizeof(twai_message_t));
+        memcpy(&sendMsg, &recMsg, sizeof(twai_message_t)); // 将接收到的CAN报文放到发送msg那里
         esp_log_write(ESP_LOG_INFO,"CAN","%s(%d): Get CAN message.\n",__FUNCTION__, __LINE__);
         twai_transmit(&sendMsg, pdMS_TO_TICKS(10)); // 发送CAN报文
     }
 }
-
-
-
 
 /**
  * @brief 测试发送功能
@@ -52,23 +53,4 @@ void test_SendMsg(void) {
        esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d): CAN message sand\n",__FUNCTION__, __LINE__); 
     } 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
