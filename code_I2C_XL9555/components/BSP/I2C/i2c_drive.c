@@ -80,12 +80,12 @@ esp_err_t i2c_transfer(i2c_obj_t *self, uint16_t addr, size_t n,i2c_buf_t *bufs,
     esp_err_t ret = ESP_FAIL;
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     if (flags & I2C_FLAG_WRITE) {
-    i2c_master_start(cmd); /* 启动位 */
-    i2c_master_write_byte(cmd, addr<<1, ACK_CHECK_EN);/* 从机地址 + 写操作位 */
-    i2c_master_write(cmd, bufs->buf, bufs->len, ACK_CHECK_EN);/* len 个数据 */
-    data_len += bufs->len;
-    --n;
-    ++bufs;
+        i2c_master_start(cmd); /* 启动位 */
+        i2c_master_write_byte(cmd, addr<<1, ACK_CHECK_EN);/* 从机地址 + 写操作位 */
+        i2c_master_write(cmd, bufs->buf, bufs->len, ACK_CHECK_EN);/* len 个数据 */
+        data_len += bufs->len;
+        --n;
+        ++bufs;
     }
     i2c_master_start(cmd); /* 启动位 */
     i2c_master_write_byte(cmd, addr << 1 |

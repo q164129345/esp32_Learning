@@ -72,33 +72,21 @@ uint16_t xl9555_pin_write(uint16_t pin, int val)
 
     xl9555_read_byte(w_data, 2);
 
-    if (pin <= GBC_KEY_IO)
-    {
-        if (val)
-        {
+    if (pin <= GBC_KEY_IO) {
+        if (val) {
             w_data[0] |= (uint8_t)(0xFF & pin);
-        }
-        else
-        {
+        } else {
             w_data[0] &= ~(uint8_t)(0xFF & pin);
         }
-    }
-    else
-    {
-        if (val)
-        {
+    } else {
+        if (val) {
             w_data[1] |= (uint8_t)(0xFF & (pin >> 8));
-        }
-        else
-        {
+        } else {
             w_data[1] &= ~(uint8_t)(0xFF & (pin >> 8));
         }
     }
-
     temp = ((uint16_t)w_data[1] << 8) | w_data[0]; 
-
     xl9555_write_byte(XL9555_OUTPUT_PORT0_REG, w_data, 2);
-
     return temp;
 }
 
@@ -113,9 +101,7 @@ int xl9555_pin_read(uint16_t pin)
     uint8_t r_data[2];
 
     xl9555_read_byte(r_data, 2);
-
     ret = r_data[1] << 8 | r_data[0];
-
     return (ret & pin) ? 1 : 0;
 }
 
@@ -135,29 +121,21 @@ uint16_t xl9555_ioconfig(uint16_t config_value)
     data[0] = (uint8_t)(0xFF & config_value);
     data[1] = (uint8_t)(0xFF & (config_value >> 8));
 
-    do
-    {
+    do {
         err = xl9555_write_byte(XL9555_CONFIG_PORT0_REG, data, 2);
-        
-        if (err != ESP_OK)
-        {
+        if (err != ESP_OK) {
             retry--;
             vTaskDelay(100); 
             esp_log_write(ESP_LOG_ERROR, "IIC", "%s configure %X failed, ret: %d", __FUNCTION__, config_value, err);
             xl9555_failed = 1;
-            
-            if ((retry <= 0) && xl9555_failed)
-            {
+            if ((retry <= 0) && xl9555_failed) {
                 vTaskDelay(5000); 
                 esp_restart();
             }
-        }
-        else
-        {
+        } else {
             xl9555_failed = 0;
             break;
         }
-        
     } while (retry);
     
     return config_value;
@@ -171,12 +149,9 @@ uint16_t xl9555_ioconfig(uint16_t config_value)
 void xl9555_init(i2c_obj_t self)
 {
     uint8_t r_data[2];
-
-    if (self.init_flag == ESP_FAIL)
-    {
+    if (self.init_flag == ESP_FAIL) {
         iic_init(I2C_NUM_0);        /* 初始化IIC */
     }
-
     xl9555_i2c_master = self;
     gpio_config_t gpio_init_struct = {0};
     
@@ -189,7 +164,6 @@ void xl9555_init(i2c_obj_t self)
 
     /* 上电先读取一次清除中断标志 */
     xl9555_read_byte(r_data, 2);
-    
     xl9555_ioconfig(0xF003);
     xl9555_pin_write(BEEP_IO, 1);
     xl9555_pin_write(SPK_EN_IO, 1);
@@ -209,40 +183,28 @@ uint8_t xl9555_key_scan(uint8_t mode)
     uint8_t keyval = 0;
     static uint8_t key_up = 1;                                          /* 按键按松开标志 */
 
-    if (mode)
-    {
+    if (mode) {
         key_up = 1;                                                     /* 支持连按 */
     }
     
-    if (key_up && (KEY0 == 0 || KEY1 == 0 || KEY2 == 0  || KEY3 == 0 )) /* 按键松开标志为1, 且有任意一个按键按下了 */
-    {
+    if (key_up && (KEY0 == 0 || KEY1 == 0 || KEY2 == 0  || KEY3 == 0 )) { /* 按键松开标志为1, 且有任意一个按键按下了 */
         vTaskDelay(10);                                                 /* 去抖动 */
         key_up = 0;
 
-        if (KEY0 == 0)
-        {
+        if (KEY0 == 0) {
             keyval = KEY0_PRES;
         }
-
-        if (KEY1 == 0)
-        {
+        if (KEY1 == 0) {
             keyval = KEY1_PRES;
         }
-
-        if (KEY2 == 0)
-        {
+        if (KEY2 == 0) {
             keyval = KEY2_PRES;
         }
-
-        if (KEY3 == 0)
-        {
+        if (KEY3 == 0) {
             keyval = KEY3_PRES;
         }
-    }
-    else if (KEY0 == 1 && KEY1 == 1 && KEY2 == 1 && KEY3 == 1)          /* 没有任何按键按下, 标记按键松开 */
-    {
+    } else if (KEY0 == 1 && KEY1 == 1 && KEY2 == 1 && KEY3 == 1){       /* 没有任何按键按下, 标记按键松开 */
         key_up = 1;
     }
-
     return keyval;                                                      /* 返回键值 */
 }
