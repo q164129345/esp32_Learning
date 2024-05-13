@@ -5,6 +5,7 @@
 #include "stdio.h"
 #include "string.h"
 #include "driver/i2c.h"
+#include "driver/gpio.h"
 
 /* IIC 控制块 */
 typedef struct _i2c_obj_t {
@@ -19,8 +20,6 @@ typedef struct _i2c_buf_t {
     size_t len;
     uint8_t *buf;
 } i2c_buf_t;
-
-extern i2c_obj_t iic_master[I2C_NUM_MAX];
 
 /* 读写标志位 */
 #define I2C_FLAG_READ (0x01)           // 读标志
@@ -38,7 +37,9 @@ extern i2c_obj_t iic_master[I2C_NUM_MAX];
 #define ACK_CHECK_EN 0x1               // I2C master 将从 slave 检查 ACK 
 
 
-
+i2c_obj_t* iic_Get_Handler(void);
+i2c_obj_t iic_init(uint8_t iic_port);
+esp_err_t i2c_transfer(i2c_obj_t *self, uint16_t addr, size_t n,i2c_buf_t *bufs, unsigned int flags);
 
 
 

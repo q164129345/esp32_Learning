@@ -3,7 +3,16 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-i2c_obj_t iic_master[I2C_NUM_MAX]; /* 为 IIC0 和 IIC1 分别定义 IIC 控制块结构体 */
+static i2c_obj_t iic_master[I2C_NUM_MAX]; // IIC0 和 IIC1 分别定义 IIC 控制块结构体
+
+/**
+ * @brief 全局变量iic_master的接口
+ * 
+ * @return i2c_obj_t* 
+ */
+i2c_obj_t* iic_Get_Handler(void) {
+    return iic_master;
+}
 
 /**
 * @brief 初始化 IIC
