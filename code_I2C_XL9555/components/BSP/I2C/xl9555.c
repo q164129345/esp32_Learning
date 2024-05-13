@@ -33,12 +33,10 @@ esp_err_t xl9555_read_byte(uint8_t *data, size_t len)
 {
     uint8_t memaddr_buf[1];
     memaddr_buf[0]  = XL9555_INPUT_PORT0_REG;
-
     i2c_buf_t bufs[2] = {
         {.len = 1, .buf = memaddr_buf},
         {.len = len, .buf = data},
     };
-
     return i2c_transfer(&xl9555_i2c_master, XL9555_ADDR, 2, bufs, I2C_FLAG_WRITE | I2C_FLAG_READ | I2C_FLAG_STOP);
 }
 
@@ -55,7 +53,6 @@ esp_err_t xl9555_write_byte(uint8_t reg, uint8_t *data, size_t len)
         {.len = 1, .buf = &reg},
         {.len = len, .buf = data},
     };
-
     return i2c_transfer(&xl9555_i2c_master, XL9555_ADDR, 2, bufs, I2C_FLAG_STOP);
 }
 
@@ -71,7 +68,6 @@ uint16_t xl9555_pin_write(uint16_t pin, int val)
     uint16_t temp = 0x0000;
 
     xl9555_read_byte(w_data, 2);
-
     if (pin <= GBC_KEY_IO) {
         if (val) {
             w_data[0] |= (uint8_t)(0xFF & pin);
@@ -117,7 +113,6 @@ uint16_t xl9555_ioconfig(uint16_t config_value)
     uint8_t data[2];
     esp_err_t err;
     int retry = 3;
-
     data[0] = (uint8_t)(0xFF & config_value);
     data[1] = (uint8_t)(0xFF & (config_value >> 8));
 
@@ -154,14 +149,12 @@ void xl9555_init(i2c_obj_t self)
     }
     xl9555_i2c_master = self;
     gpio_config_t gpio_init_struct = {0};
-    
     gpio_init_struct.intr_type = GPIO_INTR_DISABLE;
     gpio_init_struct.mode = GPIO_MODE_INPUT;
     gpio_init_struct.pin_bit_mask = (1ull << XL9555_INT_IO);
     gpio_init_struct.pull_down_en = GPIO_PULLDOWN_DISABLE;
     gpio_init_struct.pull_up_en = GPIO_PULLUP_ENABLE;
     gpio_config(&gpio_init_struct);     /* 配置XL_INT引脚 */
-
     /* 上电先读取一次清除中断标志 */
     xl9555_read_byte(r_data, 2);
     xl9555_ioconfig(0xF003);
@@ -186,8 +179,8 @@ uint8_t xl9555_key_scan(uint8_t mode)
     if (mode) {
         key_up = 1;                                                     /* 支持连按 */
     }
-    
-    if (key_up && (KEY0 == 0 || KEY1 == 0 || KEY2 == 0  || KEY3 == 0 )) { /* 按键松开标志为1, 且有任意一个按键按下了 */
+
+    if (key_up && (KEY0 == 0 || KEY1 == 0 || KEY2 == 0 || KEY3 == 0 )) { /* 按键松开标志为1, 且有任意一个按键按下了 */
         vTaskDelay(10);                                                 /* 去抖动 */
         key_up = 0;
 
