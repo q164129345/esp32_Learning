@@ -4,7 +4,9 @@ set(src_dirs
         UART
         TIMER
         CAN
-        I2C)
+        I2C
+        ESP_NOW_COMM)
+        
 
 set(include_dirs
         LED
@@ -12,11 +14,17 @@ set(include_dirs
         UART
         TIMER
         CAN
-        I2C)
+        I2C
+        ESP_NOW_COMM)
 
+# 其实，这个就是esp/v5.2.1/esp-idf/components/下的组建，到那个文件夹下可以看到如下文件夹
+# dirver文件夹、esp_timer文件夹、esp_timer文件夹等
 set(requires
         driver
-        esp_timer)
+        freertos
+        esp_timer
+        esp_wifi
+        nvs_flash)
 
 idf_component_register(SRC_DIRS ${src_dirs} INCLUDE_DIRS
                         ${include_dirs} REQUIRES ${requires})

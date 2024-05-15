@@ -6,3 +6,6 @@ cmake_minimum_required(VERSION 3.16)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(code_ESP_NOW_Comm)
+
+# Include components
+set(EXTRA_COMPONENT_DIRS components/BSP)
