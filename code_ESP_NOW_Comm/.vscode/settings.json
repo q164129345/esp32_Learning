@@ -18,5 +18,6 @@
         "task.h": "c",
         "sdkconfig.h": "c",
         "esp_system.h": "c"
-    }
+    },
+    "idf.flashType": "JTAG"
 }
