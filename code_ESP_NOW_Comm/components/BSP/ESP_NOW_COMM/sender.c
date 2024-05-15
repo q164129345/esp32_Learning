@@ -10,7 +10,7 @@
 #include "esp_log.h"
 #include "esp_netif.h"
 
-static uint8_t peer_mac[6] = {0x24, 0x0A, 0xC4, 0x12, 0x34, 0x56}; // 接收端的MAC地址
+static uint8_t peer_mac[6] = {0x3C, 0x84, 0x27, 0xC0, 0x30, 0x9C}; // 接收端的MAC地址
 
 /**
  * @brief Construct a new send callback object
