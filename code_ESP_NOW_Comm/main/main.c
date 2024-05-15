@@ -19,12 +19,13 @@
  */
 void app_main(void)
 {
-    //led_Init(); // 初始化LED
-    sender_Main_Init(); // 初始化发送端的esp_now、wifi
+    led_Init(); // 初始化LED
+    //sender_Main_Init(); // 初始化发送端的esp_now、wifi
+    receiver_Main_Init(); // 初始化接收端的esp_now、wifi
     while(1) {
-        esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d): esp_now sender\n",__FUNCTION__, __LINE__);
-        //led_Toggle();
-        send_Message("Hello, ESP_NOW!\n"); // 通过esp_now发送消息
-        vTaskDelay(2000 / portTICK_PERIOD_MS);    
+        //esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d): esp_now sender\n",__FUNCTION__, __LINE__);
+        led_Toggle();
+        //send_Message("Hello, ESP_NOW!\n"); // 通过esp_now发送消息
+        vTaskDelay(300 / portTICK_PERIOD_MS);    
     }
 }

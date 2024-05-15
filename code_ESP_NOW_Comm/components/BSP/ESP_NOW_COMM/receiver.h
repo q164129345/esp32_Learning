@@ -6,7 +6,7 @@
 #include "stdio.h"
 #include "string.h"
 
-
+void receiver_Main_Init(void);
 
 
 #endif
