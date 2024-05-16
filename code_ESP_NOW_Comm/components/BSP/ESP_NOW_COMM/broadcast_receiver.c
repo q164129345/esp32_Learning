@@ -9,6 +9,19 @@
 #include "freertos/FreeRTOS.h" // 包含FreeRTOS库
 #include "freertos/task.h"     // 包含FreeRTOS任务库
 
+int8_t g_last_rssi = 0; // 用于存储最后一个接收到的数据包的RSSI
+
+/**
+ * @brief promiscuous 回调函数
+ * 
+ * @param buf 数据包缓冲区
+ * @param type 数据包类型
+ */
+void wifi_promiscuous_rx_cb(void *buf, wifi_promiscuous_pkt_type_t type) {
+    wifi_promiscuous_pkt_t *pkt = (wifi_promiscuous_pkt_t *)buf;
+    g_last_rssi = pkt->rx_ctrl.rssi; // 获取RSSI
+}
+
 /**
  * @brief 接收回调函数
  * 
@@ -23,10 +36,7 @@ void esp_now_recv_cb(const unsigned char* mac_addr, const unsigned char* data, i
              mac_addr[3], mac_addr[4], mac_addr[5]); // 格式化MAC地址
     ESP_LOGI("ESP_NOW", "Received message from: %s", macStr); // 打印发送方的MAC地址
     ESP_LOGI("ESP_NOW", "Message: %.*s", data_len, data); // 打印接收到的消息
-
-    /* 获取信号强度 */
-    wifi_pkt_rx_ctrl_t *rx_ctrl = (wifi_pkt_rx_ctrl_t *)(data - sizeof(wifi_pkt_rx_ctrl_t)); // 数据包控制字段在数据包之前的12字节处
-    ESP_LOGI("ESP_NOW", "RSSI: %d", rx_ctrl->rssi); // 打印RSSI信号强度
+    ESP_LOGI("ESP_NOW", "RSSI: %d", g_last_rssi); // 打印RSSI信号强度
 }
 
 /**
@@ -42,6 +52,10 @@ void broadcast_Receiver_Main_Init() {
     ESP_ERROR_CHECK(esp_wifi_init(&cfg)); // 初始化WiFi
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA)); // 设置WiFi为STA模式
     ESP_ERROR_CHECK(esp_wifi_start()); // 启动WiFi
+
+    // 注册promiscuous回调函数以获取RSSI
+    esp_wifi_set_promiscuous(true);
+    esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_rx_cb);
 
     ESP_ERROR_CHECK(esp_now_init()); // 初始化ESP-NOW
     ESP_ERROR_CHECK(esp_now_register_recv_cb(esp_now_recv_cb)); // 注册接收回调函数
