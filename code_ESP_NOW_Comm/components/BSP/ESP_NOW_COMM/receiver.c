@@ -17,7 +17,7 @@
  * @param data 
  * @param len 
  */
-static void receive_Callback(const uint8_t* mac_addr, const uint8_t* data, int len) {
+void receive_Callback(const unsigned char* mac_addr, const unsigned char* data, int len) {
     char message[len + 1]; // 定义接收缓冲区
     memcpy(message, data, len); // 复制消息到缓冲区
     message[len] = '\0'; // 添加字符串结束符

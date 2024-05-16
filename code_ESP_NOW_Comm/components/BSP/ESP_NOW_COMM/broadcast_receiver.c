@@ -16,13 +16,17 @@
  * @param data 
  * @param data_len 
  */
-static void esp_now_recv_cb(const uint8_t *mac_addr, const uint8_t *data, int data_len) {
+void esp_now_recv_cb(const unsigned char* mac_addr, const unsigned char* data, int data_len) {
     char macStr[18]; // 用于存储MAC地址的字符串
     snprintf(macStr, sizeof(macStr), "%02X:%02X:%02X:%02X:%02X:%02X", 
              mac_addr[0], mac_addr[1], mac_addr[2], 
              mac_addr[3], mac_addr[4], mac_addr[5]); // 格式化MAC地址
     ESP_LOGI("ESP_NOW", "Received message from: %s", macStr); // 打印发送方的MAC地址
     ESP_LOGI("ESP_NOW", "Message: %.*s", data_len, data); // 打印接收到的消息
+
+    /* 获取信号强度 */
+    wifi_pkt_rx_ctrl_t *rx_ctrl = (wifi_pkt_rx_ctrl_t *)(data - sizeof(wifi_pkt_rx_ctrl_t)); // 数据包控制字段在数据包之前的12字节处
+    ESP_LOGI("ESP_NOW", "RSSI: %d", rx_ctrl->rssi); // 打印RSSI信号强度
 }
 
 /**
@@ -42,33 +46,4 @@ void broadcast_Receiver_Main_Init() {
     ESP_ERROR_CHECK(esp_now_init()); // 初始化ESP-NOW
     ESP_ERROR_CHECK(esp_now_register_recv_cb(esp_now_recv_cb)); // 注册接收回调函数
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
