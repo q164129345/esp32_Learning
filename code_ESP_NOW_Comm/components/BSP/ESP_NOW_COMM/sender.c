@@ -31,7 +31,7 @@ void esp_now_Init(void) {
     ESP_ERROR_CHECK(esp_now_register_send_cb(send_callback));  // 注册发送回调函数
 
     esp_now_peer_info_t peer_info = {0,}; // 定义初始化peer结构体
-    memcpy(peer_info.peer_addr, peer_mac, 6);
+    memcpy(peer_info.peer_addr, peer_mac, 6); // 接收端wifi mac地址
     peer_info.channel = 0; // 设置通信信道0
     peer_info.ifidx = ESP_IF_WIFI_STA; // 设置WIFI接口的STA模式
     peer_info.encrypt = false; // 不加密
@@ -64,7 +64,7 @@ void sender_Main_Init(void) {
     esp_now_Init(); // 初始化ESP_NOW
 
     uint8_t mac[6] = {0,};
-    ESP_ERROR_CHECK(esp_wifi_get_mac(ESP_IF_WIFI_STA, mac));
+    ESP_ERROR_CHECK(esp_wifi_get_mac(ESP_IF_WIFI_STA, mac)); // 也可以调用它获取本机wifi mac地址
     ESP_LOGI("esp_now", "sender Wi-Fi MAC address: %02x:%02x:%02x:%02x:%02x:%02x", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);   
 }
 
