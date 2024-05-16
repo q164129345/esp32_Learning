@@ -26,7 +26,7 @@ static void send_callback(const uint8_t* mac_addr, esp_now_send_status_t status)
  * @brief 初始化esp_now
  * 
  */
-void esp_now_Init(void) {
+static void esp_now_Init(void) {
     ESP_ERROR_CHECK(esp_now_init()); // 初始化ESP-NOW
     ESP_ERROR_CHECK(esp_now_register_send_cb(send_callback));  // 注册发送回调函数
 
