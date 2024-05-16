@@ -9,7 +9,7 @@
 #include "freertos/FreeRTOS.h" // 包含FreeRTOS库
 #include "freertos/task.h"     // 包含FreeRTOS任务库
 
-int8_t g_last_rssi = 0; // 用于存储最后一个接收到的数据包的RSSI
+static int8_t g_last_rssi = 0; // 用于存储最后一个接收到的数据包的RSSI
 
 /**
  * @brief promiscuous 回调函数
@@ -30,7 +30,7 @@ void wifi_promiscuous_rx_cb(void *buf, wifi_promiscuous_pkt_type_t type) {
  * @param data_len 
  */
 void esp_now_recv_cb(const unsigned char* mac_addr, const unsigned char* data, int data_len) {
-    char macStr[18]; // 用于存储MAC地址的字符串
+    char macStr[18] = {0,}; // 用于存储MAC地址的字符串
     snprintf(macStr, sizeof(macStr), "%02X:%02X:%02X:%02X:%02X:%02X", 
              mac_addr[0], mac_addr[1], mac_addr[2], 
              mac_addr[3], mac_addr[4], mac_addr[5]); // 格式化MAC地址
