@@ -21,11 +21,12 @@
  */
 void app_main(void)
 {
-    //led_Init(); // 初始化LED
-    broadcast_Sender_Main_Init(); // 初始化广播发送端
+    led_Init(); // 初始化LED
+    //broadcast_Sender_Main_Init(); // 初始化广播发送端
+    broadcast_Receiver_Main_Init(); // 初始化广播接收端
     while(1) {
         //esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d): esp_now sender\n",__FUNCTION__, __LINE__);
-        //led_Toggle();
-        vTaskDelay(1000 / portTICK_PERIOD_MS);    
+        led_Toggle();
+        vTaskDelay(300 / portTICK_PERIOD_MS);    
     }
 }
