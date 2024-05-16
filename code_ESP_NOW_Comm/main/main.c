@@ -13,6 +13,8 @@
 #include "sender.h"
 #include "receiver.h"
 
+#define SENDER 1 // 1:发送端代码 0:接收端代码
+
 /**
  * @brief 主函数
  * 
@@ -20,12 +22,20 @@
 void app_main(void)
 {
     led_Init(); // 初始化LED
-    //sender_Main_Init(); // 初始化发送端的esp_now、wifi
+
+#if SENDER == 1
+    sender_Main_Init(); // 初始化发送端的esp_now、wifi
+#else
     receiver_Main_Init(); // 初始化接收端的esp_now、wifi
+#endif
+
     while(1) {
         //esp_log_write(ESP_LOG_INFO,"MAIN","%s(%d): esp_now sender\n",__FUNCTION__, __LINE__);
         led_Toggle();
-        //send_Message("Hello, ESP_NOW!\n"); // 通过esp_now发送消息
+
+#if SENDER == 1
+        send_Message("Hello, ESP_NOW!\n"); // 通过esp_now发送消息
+#endif
         vTaskDelay(300 / portTICK_PERIOD_MS);    
     }
 }
