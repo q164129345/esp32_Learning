@@ -13,7 +13,7 @@
 #include "sender.h"
 #include "receiver.h"
 
-#define SENDER 1 // 1:发送端代码 0:接收端代码
+#define SENDER 0 // 1:发送端代码 0:接收端代码
 
 /**
  * @brief 主函数
