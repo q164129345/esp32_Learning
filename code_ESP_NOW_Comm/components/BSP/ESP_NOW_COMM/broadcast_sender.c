@@ -30,7 +30,8 @@ static void esp_now_send_cb(const uint8_t* mac_addr, esp_now_send_status_t statu
  */
 static void sender_Timer1_Callback(void* arg) {
     const char *message = "Hello, I am sender!"; // 要发送的消息
-    ESP_ERROR_CHECK(esp_now_send(NULL, (const uint8_t *)message, strlen(message))); // 发送消息
+    const char addr[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+    ESP_ERROR_CHECK(esp_now_send((const uint8_t *)addr, (const uint8_t *)message, strlen(message))); // 发送消息 
 }
 
 /**
