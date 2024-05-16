@@ -54,8 +54,8 @@ void broadcast_Receiver_Main_Init() {
     ESP_ERROR_CHECK(esp_wifi_start()); // 启动WiFi
 
     // 注册promiscuous回调函数以获取RSSI
-    esp_wifi_set_promiscuous(true);
-    esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_rx_cb);
+    ESP_ERROR_CHECK(esp_wifi_set_promiscuous(true));
+    ESP_ERROR_CHECK(esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_rx_cb));
 
     ESP_ERROR_CHECK(esp_now_init()); // 初始化ESP-NOW
     ESP_ERROR_CHECK(esp_now_register_recv_cb(esp_now_recv_cb)); // 注册接收回调函数
