@@ -29,14 +29,14 @@ void wifi_promiscuous_rx_cb(void *buf, wifi_promiscuous_pkt_type_t type) {
  * @param data 
  * @param data_len 
  */
-void esp_now_recv_cb(const unsigned char* mac_addr, const unsigned char* data, int data_len) {
+void esp_now_recv_cb(const unsigned char* mac_addr, const unsigned char* data, int data_len, wifi_pkt_rx_ctrl_t *rx_ctrl) {
     char macStr[18] = {0,}; // 用于存储MAC地址的字符串
     snprintf(macStr, sizeof(macStr), "%02X:%02X:%02X:%02X:%02X:%02X", 
              mac_addr[0], mac_addr[1], mac_addr[2], 
              mac_addr[3], mac_addr[4], mac_addr[5]); // 格式化MAC地址
     ESP_LOGI("ESP_NOW", "Received message from: %s", macStr); // 打印发送方的MAC地址
     ESP_LOGI("ESP_NOW", "Message: %.*s", data_len, data); // 打印接收到的消息
-    ESP_LOGI("ESP_NOW", "RSSI: %d", g_last_rssi); // 打印RSSI信号强度
+    ESP_LOGI("ESP_NOW", "RSSI: %d", rx_ctrl->rssi); // 打印RSSI信号强度
 }
 
 /**
@@ -54,8 +54,8 @@ void broadcast_Receiver_Main_Init() {
     ESP_ERROR_CHECK(esp_wifi_start()); // 启动WiFi
 
     // 注册promiscuous回调函数以获取RSSI
-    ESP_ERROR_CHECK(esp_wifi_set_promiscuous(true));
-    ESP_ERROR_CHECK(esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_rx_cb));
+    // ESP_ERROR_CHECK(esp_wifi_set_promiscuous(true));
+    // ESP_ERROR_CHECK(esp_wifi_set_promiscuous_rx_cb(wifi_promiscuous_rx_cb));
 
     ESP_ERROR_CHECK(esp_now_init()); // 初始化ESP-NOW
     ESP_ERROR_CHECK(esp_now_register_recv_cb(esp_now_recv_cb)); // 注册接收回调函数
